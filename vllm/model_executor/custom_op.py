@@ -20,6 +20,7 @@ class CustomOp(nn.Module):
         self._forward_method = self.dispatch_forward()
 
     def forward(self, *args, **kwargs):
+        # prompt lifecycle step 12. - determine to call forward_native or forward_cuda
         return self._forward_method(*args, **kwargs)
 
     def forward_native(self, *args, **kwargs):
@@ -63,6 +64,7 @@ class CustomOp(nn.Module):
         return self.forward_native(*args, **kwargs)
 
     def dispatch_forward(self):
+        # Detemine use forward_native or forward_cuda
         # NOTE(woosuk): Here we assume that vLLM was built for only one
         # specific backend. Currently, we do not support dynamic dispatching.
         compilation_config = get_current_vllm_config().compilation_config
@@ -93,6 +95,7 @@ class CustomOp(nn.Module):
 
     @classmethod
     def enabled(cls) -> bool:
+        # class name is the name of the custom op?
         # if no name, then it was not registered
         compilation_config = get_current_vllm_config().compilation_config
         custom_ops = compilation_config.custom_ops

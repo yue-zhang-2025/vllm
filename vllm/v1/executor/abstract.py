@@ -72,6 +72,7 @@ class Executor(ExecutorBase):
         self,
         scheduler_output,
     ) -> ModelRunnerOutput:
+        # prompt lifecycle step 5.
         output = self.collective_rpc("execute_model",
                                      args=(scheduler_output, ))
         return output[0]

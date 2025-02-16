@@ -2654,6 +2654,7 @@ class CompilationLevel:
 
 
 class CompilationConfig(BaseModel):
+    # define which kernel enabled.
     """
     Configuration for compilation.
     It has three parts:

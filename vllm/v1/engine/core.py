@@ -92,7 +92,7 @@ class EngineCore:
 
     def add_request(self, request: EngineCoreRequest):
         """Add request to the scheduler."""
-
+        # prompt lifecycle step 3.
         if request.mm_hashes is not None:
             # Here, if hash exists for an image, then it will be fetched
             # from the cache, else it will be added to the cache.
@@ -104,7 +104,6 @@ class EngineCore:
                 request.mm_inputs, request.mm_hashes)
 
         req = Request.from_engine_core_request(request)
-
         self.scheduler.add_request(req)
 
     def abort_requests(self, request_ids: List[str]):
@@ -122,7 +121,7 @@ class EngineCore:
         if not self.scheduler.has_unfinished_requests():
             return EngineCoreOutputs(
                 outputs=[], scheduler_stats=self.scheduler.make_stats())
-
+        # prompt lifecycle step 4.
         scheduler_output = self.scheduler.schedule()
         output = self.model_executor.execute_model(scheduler_output)
         engine_core_outputs = self.scheduler.update_from_output(

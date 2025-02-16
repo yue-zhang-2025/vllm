@@ -77,6 +77,7 @@ class RMSNorm(CustomOp):
         x: torch.Tensor,
         residual: Optional[torch.Tensor] = None,
     ) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+        # prompt lifecycle step 13. - cuda path.
         if self.variance_size_override is not None:
             return self.forward_native(x, residual)
 

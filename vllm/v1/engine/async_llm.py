@@ -135,6 +135,7 @@ class AsyncLLM(EngineClient):
         prompt_adapter_request: Optional[PromptAdapterRequest] = None,
         priority: int = 0,
     ) -> asyncio.Queue[RequestOutput]:
+        # prompt lifecycle step 2.
         """Add new request to the AsyncLLM."""
 
         # 1) Create a new output queue for the request.
@@ -175,6 +176,7 @@ class AsyncLLM(EngineClient):
         prompt_adapter_request: Optional[PromptAdapterRequest] = None,
         priority: int = 0,
     ) -> AsyncGenerator[RequestOutput, None]:
+        # prompt lifecycle step 1.
         """
         Main function called by the API server to kick off a request
             * 1) Making an AsyncStream corresponding to the Request.
@@ -197,7 +199,8 @@ class AsyncLLM(EngineClient):
             if self.output_handler is None:
                 self.output_handler = asyncio.create_task(
                     self._run_output_handler())
-
+            
+            # Add the request to the EngineCore.
             q = await self.add_request(
                 request_id,
                 prompt,

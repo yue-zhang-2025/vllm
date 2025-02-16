@@ -164,6 +164,7 @@ void rms_norm(torch::Tensor& out,     // [..., hidden_size]
                                          num_tokens, hidden_size);             \
       });
 
+// prompt lifecycle step 13. - cuda path calling into the kernel.
 void fused_add_rms_norm(torch::Tensor& input,     // [..., hidden_size]
                         torch::Tensor& residual,  // [..., hidden_size]
                         torch::Tensor& weight,    // [hidden_size]

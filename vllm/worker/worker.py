@@ -78,6 +78,7 @@ class Worker(LocalOrDistributedWorkerBase):
             ModelRunnerClass = PoolingModelRunner
         elif self.model_config.is_encoder_decoder:
             ModelRunnerClass = EncoderDecoderModelRunner
+        # prompt lifecycle step 7.
         self.model_runner: GPUModelRunnerBase = ModelRunnerClass(
             vllm_config=self.vllm_config,
             kv_cache_dtype=self.cache_config.cache_dtype,

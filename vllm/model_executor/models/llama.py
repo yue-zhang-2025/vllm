@@ -259,6 +259,7 @@ class LlamaDecoderLayer(nn.Module):
         self.post_attention_layernorm = RMSNorm(config.hidden_size,
                                                 eps=config.rms_norm_eps)
 
+    # prompt lifecycle step 10 - the actual model's forward path defined here.
     def forward(
         self,
         positions: torch.Tensor,
@@ -270,6 +271,7 @@ class LlamaDecoderLayer(nn.Module):
         # Self Attention
         if residual is None:
             residual = hidden_states
+            # prompt lifecycle step 11 - calling the layernorm forward (nn.Module makes the __call__ to call forward)
             hidden_states = self.input_layernorm(hidden_states)
         else:
             hidden_states, residual = self.input_layernorm(

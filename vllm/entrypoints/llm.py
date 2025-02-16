@@ -418,6 +418,7 @@ class LLM:
             considered legacy and may be deprecated in the future. You should
             instead pass them via the ``inputs`` parameter.
         """
+        # This is the entrypoint for the vllm V0 and V1 offline inference.
         runner_type = self.llm_engine.model_config.runner_type
         if runner_type != "generate":
             messages = [
@@ -1317,6 +1318,8 @@ class LLM:
                 sp.output_kind = RequestOutputKind.FINAL_ONLY
 
         # Add requests to the engine.
+        # Offline inference - loop the prompts and add each of them into queue, this is not parallelized,
+        # each _add_request need to do tokenize if the input prompts are not tokenized beforehand.
         for i, prompt in enumerate(prompts):
             self._add_request(
                 prompt,

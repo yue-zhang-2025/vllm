@@ -44,8 +44,10 @@ class UniProcExecutor(ExecutorBase):
                        timeout: Optional[float] = None,
                        args: Tuple = (),
                        kwargs: Optional[Dict] = None) -> List[Any]:
+        # prompt lifecycle step 6. - for tp=1, pp=1 case.
         if kwargs is None:
             kwargs = {}
+        # Calling the worker's model_runner's method (e.g. model_executor)
         answer = run_method(self.driver_worker, method, args, kwargs)
         return [answer]
 
