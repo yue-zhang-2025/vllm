@@ -559,6 +559,7 @@ class Scheduler:
         return False
 
     def add_request(self, request: Request) -> None:
+        # prompt lifecycle step 4.
         self.waiting.append(request)
         self.requests[request.request_id] = request
         self.request_queued(request)
